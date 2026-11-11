@@ -49,7 +49,7 @@ namespace CsharpLab4
                         break;
 
                     case "5в":
-                        // Резерв для задачи 5
+                        RunTask5User();
                         break;
 
                     case "6":
@@ -310,6 +310,73 @@ namespace CsharpLab4
             }
         }
 
+        private static void RunTask5User()
+        {
+            Console.WriteLine("\n--- Задача 5 (ввод пользователя): Мониторинг цен на сметану ---");
+            Console.Write("Введите имя или путь к файлу (по умолчанию sour_cream_user.txt): ");
+            string? filepath = Console.ReadLine();
+            if (filepath != null)
+            {
+                filepath = filepath.Trim();
+            }
+            if (string.IsNullOrEmpty(filepath))
+            {
+                filepath = "sour_cream_user.txt";
+            }
+
+            int n = ReadIntInRange("Введите количество магазинов (N): ", 1);
+            List<string> records = new List<string>();
+
+            for (int i = 0; i < n; i++)
+            {
+                Console.WriteLine("\nМагазин #" + (i + 1) + ":");
+
+                Console.Write("  Название фирмы (до 20 символов без пробелов): ");
+                string? firm = Console.ReadLine();
+                if (firm != null) firm = firm.Trim();
+                else firm = "";
+                while (firm.Length == 0 || firm.Length > 20 || firm.Contains(" "))
+                {
+                    Console.Write("  Ошибка! Введите строку без пробелов (1-20 символов): ");
+                    firm = Console.ReadLine();
+                    if (firm != null) firm = firm.Trim();
+                    else firm = "";
+                }
+
+                Console.Write("  Улица (до 20 символов без пробелов): ");
+                string? street = Console.ReadLine();
+                if (street != null) street = street.Trim();
+                else street = "";
+                while (street.Length == 0 || street.Length > 20 || street.Contains(" "))
+                {
+                    Console.Write("  Ошибка! Введите строку без пробелов (1-20 символов): ");
+                    street = Console.ReadLine();
+                    if (street != null) street = street.Trim();
+                    else street = "";
+                }
+
+                int fat = 0;
+                while (fat != 15 && fat != 20 && fat != 25)
+                {
+                    fat = ReadIntInRange("  Жирность (15, 20 или 25): ", 15, 25);
+                    if (fat != 15 && fat != 20 && fat != 25)
+                    {
+                        Console.WriteLine("  Жирность может быть только 15, 20 или 25!");
+                    }
+                }
+
+                int price = ReadIntInRange("  Цена за литр в копейках (2000-5000): ", 2000, 5000);
+
+                string line = firm + " " + street + " " + fat.ToString() + " " + price.ToString();
+                records.Add(line);
+            }
+
+            OneFive.CreateSourCreamFile(filepath, records);
+            Console.WriteLine("\nФайл " + filepath + " успешно сформирован.");
+            Console.WriteLine("Результат (количество самых дешевых магазинов для 15, 20, 25%):");
+            OneFive.AnalyzeSourCreamPrices(filepath);
+        }
+
 
 
         private static Time ReadTimeFromUser(string timeRoleName)
@@ -392,6 +459,7 @@ namespace CsharpLab4
             Console.WriteLine(" 3   - Тест: Анализ фабрик мебели");
             Console.WriteLine(" 4   - Тесты: Глухие согласные в нечетных и четных словах файла");
             Console.WriteLine(" 4в  - Ввод пользователя: Указать путь к файлу для анализа слов");
+            Console.WriteLine(" 5в  - Ввод пользователя: Заполнение файла и анализ цен на сметану");
             Console.WriteLine(" 6   - Тест: Класс Time (Тестирование вычитания времени)");
             Console.WriteLine(" 6в  - Ввод пользователя: Создание объектов Time и их вычитание");
             Console.WriteLine(" 7   - Тест: Операции класса Time");

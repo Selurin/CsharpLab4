@@ -121,7 +121,7 @@ public class OneFive
 
         using (StreamReader reader = new StreamReader(filepath))
         {
-            string line;
+            string? line;
             while ((line = reader.ReadLine()) != null)
 
             {
@@ -180,6 +180,101 @@ public class OneFive
         {
             Console.WriteLine("Результат: " + string.Join(", ", result));
         }
+    }
+
+    public static void CreateSourCreamFile(string filepath, List<string> records)
+    {
+        using (StreamWriter writer = new StreamWriter(filepath, false))
+        {
+            int count = records != null ? records.Count : 0;
+            writer.WriteLine(count);
+            if (records != null)
+            {
+                for (int i = 0; i < records.Count; i++)
+                {
+                    writer.WriteLine(records[i]);
+                }
+            }
+        }
+    }
+
+    public static string AnalyzeSourCreamPrices(string filepath)
+    {
+        if (!File.Exists(filepath))
+        {
+            Console.WriteLine("Файл " + filepath + " не найден.");
+            return "";
+        }
+
+        var minPrices = new Dictionary<int, int>
+        {
+            { 15, int.MaxValue },
+            { 20, int.MaxValue },
+            { 25, int.MaxValue }
+        };
+
+        var counts = new Dictionary<int, int>
+        {
+            { 15, 0 },
+            { 20, 0 },
+            { 25, 0 }
+        };
+
+        using (var reader = new StreamReader(filepath))
+        {
+            string? firstLine = reader.ReadLine();
+            if (firstLine == null)
+            {
+                Console.WriteLine("Файл пуст.");
+                return "0 0 0";
+            }
+
+            int n;
+            if (!int.TryParse(firstLine.Trim(), out n))
+            {
+                Console.WriteLine("Неверный формат числа N.");
+                return "0 0 0";
+            }
+
+            string? line;
+            int readCount = 0;
+            while (readCount < n && (line = reader.ReadLine()) != null)
+            {
+                line = line.Trim();
+                if (line.Length == 0)
+                {
+                    continue;
+                }
+
+                string[] parts = line.Split(' ');
+                if (parts.Length == 4)
+                {
+                    int fat;
+                    int price;
+                    if (int.TryParse(parts[2], out fat) && int.TryParse(parts[3], out price))
+                    {
+                        if (minPrices.ContainsKey(fat))
+                        {
+                            int currentMin = minPrices[fat];
+                            if (price < currentMin)
+                            {
+                                minPrices[fat] = price;
+                                counts[fat] = 1;
+                            }
+                            else if (price == currentMin)
+                            {
+                                counts[fat] = counts[fat] + 1;
+                            }
+                        }
+                    }
+                }
+                readCount++;
+            }
+        }
+
+        string result = counts[15].ToString() + " " + counts[20].ToString() + " " + counts[25].ToString();
+        Console.WriteLine(result);
+        return result;
     }
 }
 
