@@ -16,5 +16,17 @@
 
         return list ?? new List<object>();
     }
+
+    public static LinkedList<object> DeleteFirstAndLast(LinkedList<object> list)
+    {
+        if (list != null && list.Count > 2)
+        {
+
+            list.RemoveFirst();
+            list.RemoveLast();
+        }
+
+        return list ?? new LinkedList<object>();
+    }
 }
 
