@@ -61,11 +61,11 @@ namespace CsharpLab4
                         break;
 
                     case "7":
-                        // Резерв для задачи 7
+                        RunTask7Tests();
                         break;
 
                     case "7в":
-                        // Резерв для задачи 7в
+                        RunTask7User();
                         break;
 
                     default:
@@ -244,6 +244,74 @@ namespace CsharpLab4
             }
         }
 
+        private static void RunTask7Tests()
+        {
+            var t1 = new Time(23, 59);
+            Console.WriteLine($"Исходное время t1: {t1}");
+            t1++;
+            Console.WriteLine($"t1++ (переход через полночь): {t1}");
+
+            var t2 = new Time(0, 0);
+            Console.WriteLine($"\nИсходное время t2: {t2}");
+            t2--;
+            Console.WriteLine($"t2-- (переход в предыдущие сутки): {t2}");
+
+            var t3 = new Time(2, 30);
+            int totalMin = t3;
+            Console.WriteLine($"\nНеявное приведение к int: {t3} -> {totalMin} мин.");
+
+            Console.WriteLine("\nЯвное приведение к bool (true, если часы и минуты не равны 0):");
+            Console.WriteLine($"  (bool)new Time(2, 30) = {(bool)new Time(2, 30)}");
+            Console.WriteLine($"  (bool)new Time(0, 30) = {(bool)new Time(0, 30)}");
+            Console.WriteLine($"  (bool)new Time(2, 0)  = {(bool)new Time(2, 0)}");
+
+            var a = new Time(10, 15);
+            var b = new Time(12, 0);
+            Console.WriteLine($"\nБинарные сравнения {a} и {b}:");
+            Console.WriteLine($"  {a} < {b} : {a < b}");
+            Console.WriteLine($"  {a} > {b} : {a > b}");
+        }
+
+        private static void RunTask7User()
+        {
+            Console.WriteLine("1 - Унарные операции и приведение типов (++, --, int, bool)");
+            Console.WriteLine("2 - Бинарные операции сравнения (<, >)");
+            int choice = ReadIntInRange("Выберите тип операций (1 или 2): ", 1, 2);
+
+            if (choice == 1)
+            {
+                Time t = ReadTimeFromUser("для выполнения унарных операций");
+                Console.WriteLine($"\nИсходное время: {t}");
+
+                Time tInc = new Time(t.Hours, t.Minutes);
+                tInc++;
+                Console.WriteLine($"Операция ++ (добавлена минута): {tInc}");
+
+                Time tDec = new Time(t.Hours, t.Minutes);
+                tDec--;
+                Console.WriteLine($"Операция -- (вычтена минута):   {tDec}");
+
+                int minutes = t;
+                Console.WriteLine($"Неявное приведение к int:        {minutes} мин.");
+
+                bool hasNonZero = (bool)t;
+                Console.WriteLine($"Явное приведение к bool:         {hasNonZero} (часы и минуты не равны 0)");
+            }
+            else
+            {
+                Time t1 = ReadTimeFromUser("T1");
+                Time t2 = ReadTimeFromUser("T2");
+
+                Console.WriteLine($"\nВведенное время T1: {t1} ({(int)t1} мин.)");
+                Console.WriteLine($"Введенное время T2: {t2} ({(int)t2} мин.)");
+
+                Console.WriteLine($"Результат T1 < T2: {t1 < t2}");
+                Console.WriteLine($"Результат T1 > T2: {t1 > t2}");
+            }
+        }
+
+
+
         private static Time ReadTimeFromUser(string timeRoleName)
         {
             Console.WriteLine($"\nСпособ ввода для {timeRoleName}:");
@@ -274,7 +342,6 @@ namespace CsharpLab4
                 }
             }
         }
-
 
         private static bool TryReadInt(string prompt, out int value)
         {
@@ -325,8 +392,10 @@ namespace CsharpLab4
             Console.WriteLine(" 3   - Тест: Анализ фабрик мебели");
             Console.WriteLine(" 4   - Тесты: Глухие согласные в нечетных и четных словах файла");
             Console.WriteLine(" 4в  - Ввод пользователя: Указать путь к файлу для анализа слов");
-            Console.WriteLine(" 6   - Тесты: Класс Time (Тестирование вычитания времени)");
+            Console.WriteLine(" 6   - Тест: Класс Time (Тестирование вычитания времени)");
             Console.WriteLine(" 6в  - Ввод пользователя: Создание объектов Time и их вычитание");
+            Console.WriteLine(" 7   - Тест: Операции класса Time");
+            Console.WriteLine(" 7в  - Ввод пользователя: Операции с Time");
             Console.WriteLine(" 0   - Выход из программы");
             Console.WriteLine("====================================================================");
         }

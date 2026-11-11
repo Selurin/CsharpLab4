@@ -66,10 +66,9 @@ public class Time
 
         int diffMinutes = currentTotalMinutes - otherTotalMinutes;
 
-
         if (diffMinutes < 0)
         {
-            diffMinutes += 24 * 60; 
+            diffMinutes += 24 * 60;
         }
 
         byte resultHours = (byte)(diffMinutes / 60);
@@ -85,4 +84,57 @@ public class Time
         return t1.Subtract(t2);
     }
 
+    public static Time operator ++(Time t)
+    {
+        if (t == null)
+            throw new ArgumentNullException(nameof(t));
+
+        int totalMinutes = (t._hours * 60 + t._minutes + 1) % (24 * 60);
+        return new Time((byte)(totalMinutes / 60), (byte)(totalMinutes % 60));
+    }
+
+    public static Time operator --(Time t)
+    {
+        if (t == null)
+            throw new ArgumentNullException(nameof(t));
+
+        int totalMinutes = t._hours * 60 + t._minutes - 1;
+        if (totalMinutes < 0)
+        {
+            totalMinutes += 24 * 60;
+        }
+        return new Time((byte)(totalMinutes / 60), (byte)(totalMinutes % 60));
+    }
+
+    public static implicit operator int(Time t)
+    {
+        if (t == null)
+            throw new ArgumentNullException(nameof(t));
+
+        return t._hours * 60 + t._minutes;
+    }
+
+    public static explicit operator bool(Time t)
+    {
+        if (t == null)
+            return false;
+
+        return t._hours != 0 && t._minutes != 0;
+    }
+
+    public static bool operator <(Time t1, Time t2)
+    {
+        if (t1 is null || t2 is null)
+            throw new ArgumentNullException(t1 is null ? nameof(t1) : nameof(t2));
+
+        return (int)t1 < (int)t2;
+    }
+
+    public static bool operator >(Time t1, Time t2)
+    {
+        if (t1 is null || t2 is null)
+            throw new ArgumentNullException(t1 is null ? nameof(t1) : nameof(t2));
+
+        return (int)t1 > (int)t2;
+    }
 }
