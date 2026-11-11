@@ -1,4 +1,7 @@
-﻿namespace CsharpLab4
+﻿using System;
+using System.Collections.Generic;
+
+namespace CsharpLab4
 {
     internal class Program
     {
@@ -21,22 +24,22 @@
                         var mylist = new List<object> { "Первый", 2, true, "Третий", 4 };
                         Console.WriteLine($"Исходный список: {string.Join(", ", mylist)}");
                         var resultList = OneFive.MoveToEnd(mylist);
-                        Console.WriteLine($"Удален первый элемент: {string.Join(", ", resultList)}");
+                        Console.WriteLine($"Первый элемент перемещен в конец: {string.Join(", ", resultList)}");
                         break;
 
                     case "1в":
-                        //
+                        RunTask1User();
                         break;
 
                     case "2":
-                        var myLlist = new LinkedList<object>(["Первый", 2, true, "Третий", 4]);
+                        var myLlist = new LinkedList<object>(new object[] { "Первый", 2, true, "Третий", 4 });
                         Console.WriteLine($"Исходный список: {string.Join(", ", myLlist)}");
                         var resultLList = OneFive.DeleteFirstAndLast(myLlist);
                         Console.WriteLine($"Удалены первый и последний элементы: {string.Join(", ", resultLList)}");
                         break;
 
                     case "2в":
-                        //
+                        RunTask2User();
                         break;
 
                     case "3":
@@ -49,21 +52,60 @@
                             "Смирнов"
                         };
 
-                        var factoryPurchases = new Dictionary<string, HashSet<string>>
+                        var factoryCatalog = new Dictionary<string, HashSet<string>>
                         {
-                            { "Ангстрем", new HashSet<string> { "Иванов", "Петрова", "Смирнов" } },
-                            { "Столплит", new HashSet<string>() },
-                            { "Лазурит", new HashSet<string> { "Кузнецова" } },
-                            { "Шатура", new HashSet<string> { "Иванов", "Петрова", "Сидоров", "Кузнецова", "Смирнов" }},
-                            { "Аскона", new HashSet<string>() },
-                            { "Дятьково", new HashSet<string> { "Петрова", "Сидоров" } },
+                            { "Шатура", new HashSet<string> { "Диван", "Стол", "Шкаф", "Кресло", "Тумба" } },
+                            { "Ангстрем", new HashSet<string> { "Кровать", "Комод", "Матрас" } },
+                            { "Лазурит", new HashSet<string> { "Стенка", "Полка", "Стеллаж" } },
+                            { "Дятьково", new HashSet<string> { "Письменный стол", "Стул", "Пенал" } },
+                            { "Столплит", new HashSet<string> { "Кухонный гарнитур", "Табурет" } },
+                            { "Аскона", new HashSet<string> { "Ортопедическая подушка", "Одеяло" } }
                         };
 
-                        OneFive.FurnitureFactoryAnalysis(factoryPurchases, allCustomers);
-                        break;
-
-                    case "3в":
-                        //
+                        var customerPurchases = new Dictionary<string, Dictionary<string, HashSet<string>>>
+                        {
+                            {
+                                "Иванов", new Dictionary<string, HashSet<string>>
+                                {
+                                    { "Шатура", new HashSet<string> { "Диван", "Стол" } },
+                                    { "Ангстрем", new HashSet<string> { "Кровать", "Комод" } },
+                                    { "Дятьково", new HashSet<string> { "Стул" } }
+                                }
+                            },
+                            {
+                                "Петрова", new Dictionary<string, HashSet<string>>
+                                {
+                                    { "Шатура", new HashSet<string> { "Диван", "Стол", "Кресло" } },
+                                    { "Ангстрем", new HashSet<string> { "Кровать", "Комод" } },
+                                    { "Дятьково", new HashSet<string> { "Письменный стол", "Стул" } }
+                                }
+                            },
+                            {
+                                "Сидоров", new Dictionary<string, HashSet<string>>
+                                {
+                                    { "Шатура", new HashSet<string> { "Диван", "Шкаф" } },
+                                    { "Ангстрем", new HashSet<string> { "Кровать", "Комод" } },
+                                    { "Лазурит", new HashSet<string> { "Стенка" } },
+                                    { "Дятьково", new HashSet<string> { "Стул" } }
+                                }
+                            },
+                            {
+                                "Кузнецова", new Dictionary<string, HashSet<string>>
+                                {
+                                    { "Шатура", new HashSet<string> { "Диван" } },
+                                    { "Ангстрем", new HashSet<string> { "Кровать", "Комод" } },
+                                    { "Лазурит", new HashSet<string> { "Полка" } }
+                                }
+                            },
+                            {
+                                "Смирнов", new Dictionary<string, HashSet<string>>
+                                {
+                                    { "Шатура", new HashSet<string> { "Диван", "Стол" } },
+                                    { "Ангстрем", new HashSet<string> { "Кровать", "Комод" } }
+                                }
+                            }
+                        };
+                        OneFive.FurnitureFactoryAnalysis(factoryCatalog, customerPurchases, allCustomers);
                         break;
 
                     case "4":
@@ -100,27 +142,27 @@
                         break;
 
                     case "4в":
-                        //
+                        RunTask4User();
                         break;
 
                     case "5в":
-                        //
+                        // Резерв для задачи 5
                         break;
 
                     case "6":
-                        //
+                        // Резерв для задачи 6
                         break;
 
                     case "6в":
-                        //
+                        // Резерв для задачи 6в
                         break;
 
                     case "7":
-                        //
+                        // Резерв для задачи 7
                         break;
 
                     case "7в":
-                        //
+                        // Резерв для задачи 7в
                         break;
 
                     default:
@@ -130,12 +172,104 @@
             } while (choice != "0");
         }
 
+
+        private static void RunTask1User()
+        {
+            int count = ReadIntInRange("Введите количество элементов списка: ", 1);
+
+            var userList = new List<object>();
+            for (int i = 0; i < count; i++)
+            {
+                Console.Write($"Введите элемент [{i + 1}]: ");
+                string item = Console.ReadLine() ?? "";
+                userList.Add(item);
+            }
+
+            Console.WriteLine($"\nИсходный список: {string.Join(", ", userList)}");
+            var resultList = OneFive.MoveToEnd(userList);
+            Console.WriteLine($"Первый элемент перемещен в конец: {string.Join(", ", resultList)}");
+        }
+
+        private static void RunTask2User()
+        {
+            int count = ReadIntInRange("Введите количество элементов списка: ", 0);
+
+            var userLList = new LinkedList<object>();
+            for (int i = 0; i < count; i++)
+            {
+                Console.Write($"Введите элемент [{i + 1}]: ");
+                string item = Console.ReadLine() ?? "";
+                userLList.AddLast(item);
+            }
+
+            Console.WriteLine($"\nИсходный список: {string.Join(", ", userLList)}");
+            var resultLList = OneFive.DeleteFirstAndLast(userLList);
+            Console.WriteLine($"Удалены первый и последний элементы: {string.Join(", ", resultLList)}");
+        }
+
+       
+        private static void RunTask4User()
+        {
+            Console.WriteLine("\n--- Задача 4 (ввод пользователя): Анализ глухих согласных в файле ---");
+            Console.WriteLine("Обратите внимание, что файлы без пути будут автоматически искаться в папке проекта " +
+                "CsharpLab4\\bin\\Release\\net10.0");
+            Console.Write("Введите путь к текстовому файлу: ");
+            string filepath = Console.ReadLine()?.Trim() ?? "";
+            OneFive.FileWordAnalyzer(filepath);
+        }
+
+
+        private static bool TryReadInt(string prompt, out int value)
+        {
+            Console.Write(prompt);
+            if (int.TryParse(Console.ReadLine(), out value))
+            {
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Неверное значение! Ожидалось целое число.");
+                return false;
+            }
+        }
+
+        private static int ReadIntInRange(string prompt, int min, int max = int.MaxValue)
+        {
+            int value;
+            while (true)
+            {
+                if (TryReadInt(prompt, out value))
+                {
+                    if (value >= min && value <= max)
+                    {
+                        return value;
+                    }
+
+                    if (max == int.MaxValue)
+                    {
+                        Console.WriteLine($"Число должно быть не меньше {min}.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Число должно быть в диапазоне от {min} до {max}.");
+                    }
+                }
+            }
+        }
+
+
         private static void PrintMenu()
         {
-            Console.WriteLine("\n--- Меню задач ---");
-            Console.WriteLine("1 - ...");
-            Console.WriteLine("0 - Выход");
-            Console.WriteLine("------------------");
+            Console.WriteLine("\n============================ Меню задач ============================");
+            Console.WriteLine(" 1   - Тест: Перемещение первого элемента в конец списка");
+            Console.WriteLine(" 1в  - Ввод пользователя: Перемещение первого элемента в конец списка");
+            Console.WriteLine(" 2   - Тест: Удаление первого и последнего элементов");
+            Console.WriteLine(" 2в  - Ввод пользователя: Удаление первого и последнего элементов");
+            Console.WriteLine(" 3   - Тест: Анализ фабрик мебели (всеми, некоторыми или никем)");
+            Console.WriteLine(" 4   - Тесты: Глухие согласные в нечетных и четных словах файла");
+            Console.WriteLine(" 4в  - Ввод пользователя: Указать путь к файлу для анализа слов");
+            Console.WriteLine(" 0   - Выход из программы");
+            Console.WriteLine("====================================================================");
         }
     }
 }

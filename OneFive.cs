@@ -1,4 +1,7 @@
-﻿public class OneFive
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+public class OneFive
 {
     public static List<object> MoveToEnd(List<object> list)
     {
@@ -29,24 +32,77 @@
         return list ?? new LinkedList<object>();
     }
 
-    public static void FurnitureFactoryAnalysis(Dictionary<string, HashSet<string>> factoryPurchases, 
+    public static void FurnitureFactoryAnalysis(
+        Dictionary<string, HashSet<string>> factoryCatalog,
+        Dictionary<string, Dictionary<string, HashSet<string>>> customerPurchases,
         HashSet<string> allCustomers)
     {
-        foreach (var factory in factoryPurchases)
+        if (factoryCatalog == null || factoryCatalog.Count == 0)
         {
-            var customers = factory.Value;
-            if (customers.SetEquals(allCustomers))
+            Console.WriteLine("Каталог фабрик пуст.");
+            return;
+        }
+
+        if (allCustomers == null || allCustomers.Count == 0)
+        {
+            Console.WriteLine("Список покупателей пуст.");
+            return;
+        }
+
+        foreach (var factoryPair in factoryCatalog)
+        {
+            string factory = factoryPair.Key;
+            HashSet<string> catalog = factoryPair.Value ?? new HashSet<string>();
+
+            var purchasesPerCustomer = new List<HashSet<string>>();
+            foreach (string customer in allCustomers)
             {
-                Console.WriteLine($"Фабрика {factory.Key}: мебель приобреталась всеми покупателями.");
+                HashSet<string> customerBought = new HashSet<string>();
+                if (customerPurchases != null &&
+                    customerPurchases.ContainsKey(customer) &&
+                    customerPurchases[customer] != null &&
+                    customerPurchases[customer].ContainsKey(factory) &&
+                    customerPurchases[customer][factory] != null)
+                {
+                    foreach (string item in customerPurchases[customer][factory])
+                    {
+                        if (catalog.Contains(item))
+                        {
+                            customerBought.Add(item);
+                        }
+                    }
+                }
+                purchasesPerCustomer.Add(customerBought);
             }
-            else if (customers.Count > 0)
+
+
+            var allPurchased = new HashSet<string>(purchasesPerCustomer[0]);
+            for (int i = 1; i < purchasesPerCustomer.Count; i++)
             {
-                Console.WriteLine($"Фабрика {factory.Key}: мебель приобреталась некоторыми покупателями.");
+                allPurchased.IntersectWith(purchasesPerCustomer[i]);
             }
-            else
+
+            var anyPurchased = new HashSet<string>();
+            for (int i = 0; i < purchasesPerCustomer.Count; i++)
             {
-                Console.WriteLine($"Фабрика {factory.Key}: мебель не приобреталась никем из покупателей.");
+                anyPurchased.UnionWith(purchasesPerCustomer[i]);
             }
+
+            var somePurchased = new HashSet<string>(anyPurchased);
+            somePurchased.ExceptWith(allPurchased);
+
+            var nonePurchased = new HashSet<string>(catalog);
+            nonePurchased.ExceptWith(anyPurchased);
+
+
+            Console.WriteLine($"\nФабрика \"{factory}\":");
+            Console.WriteLine($"  Ассортимент фабрики: {(catalog.Count > 0 ? string.Join(", ", catalog) : "нет")}");
+            Console.WriteLine($"  - Приобреталась всеми покупателями: {(allPurchased.Count > 0 ? 
+                string.Join(", ", allPurchased) : "нет")}");
+            Console.WriteLine($"  - Приобреталась некоторыми покупателями: {(somePurchased.Count > 0 ? 
+                string.Join(", ", somePurchased) : "нет")}");
+            Console.WriteLine($"  - Не приобреталась никем из покупателей: {(nonePurchased.Count > 0 ? 
+                string.Join(", ", nonePurchased) : "нет")}");
         }
     }
 
