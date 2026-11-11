@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\alena\source\repos\CsharpLab4\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\alena\source\repos\CsharpLab4\.editorconfig" />
+  </ItemGroup>
+
 </Project>
