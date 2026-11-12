@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 public class OneFive
 {
-    public static List<object> MoveToEnd(List<object> list)
+    public static List<T> MoveToEnd<T>(List<T> list)
     {
         if (list != null && list.Count > 1)
         {
-            var first = list[0];
+            T first = list[0];
             int lastIndex = list.Count - 1;
 
             for (int i = 0; i < lastIndex; i++)
@@ -17,10 +17,10 @@ public class OneFive
             list[lastIndex] = first;
         }
 
-        return list ?? new List<object>();
+        return list ?? new List<T>();
     }
 
-    public static LinkedList<object> DeleteFirstAndLast(LinkedList<object> list)
+    public static LinkedList<T> DeleteFirstAndLast<T>(LinkedList<T> list)
     {
         if (list != null && list.Count > 2)
         {
@@ -29,7 +29,7 @@ public class OneFive
             list.RemoveLast();
         }
 
-        return list ?? new LinkedList<object>();
+        return list ?? new LinkedList<T>();
     }
 
     public static void FurnitureFactoryAnalysis(

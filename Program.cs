@@ -101,7 +101,7 @@ namespace CsharpLab4
 
         private static void RunTask2Tests()
         {
-            var myLlist = new LinkedList<object>(new object[] { "Первый", 2, true, "Третий", 4 });
+            var myLlist = new LinkedList<object>([ "Первый", 2, true, "Третий", 4 ]);
             Console.WriteLine($"Исходный список: {string.Join(", ", myLlist)}");
             var resultLList = OneFive.DeleteFirstAndLast(myLlist);
             Console.WriteLine($"Удалены первый и последний элементы: {string.Join(", ", resultLList)}");
@@ -193,7 +193,8 @@ namespace CsharpLab4
         private static void RunTask4Tests()
         {
             var filepath = "C:\\Users\\alena\\source\\repos\\CsharpLab4\\test_files\\test_basic.txt";
-            Console.WriteLine("\nБазовый тест (есть и подходящие, и неподходящие буквы)");
+            Console.WriteLine("\nБазовый тест (есть и подходящие, и неподходящие буквы). " +
+                "В файле находится \"Кот дом кит шар\"");
             Console.WriteLine("Ожидаемый результат: к, т");
             OneFive.FileWordAnalyzer(filepath);
 

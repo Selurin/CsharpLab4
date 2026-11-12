@@ -59,7 +59,9 @@ public class Time
     public Time Subtract(Time other)
     {
         if (other == null)
+        {
             throw new ArgumentNullException(nameof(other), "Вычитаемое время не может быть null.");
+        }
 
         int currentTotalMinutes = _hours * 60 + _minutes;
         int otherTotalMinutes = other._hours * 60 + other._minutes;
@@ -80,14 +82,18 @@ public class Time
     public static Time operator -(Time t1, Time t2)
     {
         if (t1 == null)
+        {
             throw new ArgumentNullException(nameof(t1));
+        }
         return t1.Subtract(t2);
     }
 
     public static Time operator ++(Time t)
     {
         if (t == null)
+        {
             throw new ArgumentNullException(nameof(t));
+        }
 
         int totalMinutes = (t._hours * 60 + t._minutes + 1) % (24 * 60);
         return new Time((byte)(totalMinutes / 60), (byte)(totalMinutes % 60));
@@ -96,7 +102,9 @@ public class Time
     public static Time operator --(Time t)
     {
         if (t == null)
+        {
             throw new ArgumentNullException(nameof(t));
+        }
 
         int totalMinutes = t._hours * 60 + t._minutes - 1;
         if (totalMinutes < 0)
